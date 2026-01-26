@@ -17,6 +17,16 @@ class UpdateUserRequestDict(TypedDict):
     middleName: str | None
 
 
+class User(TypedDict):
+    id: str
+    email: str
+    lastName: str
+    firstName: str
+    middleName: str
+
+class GetUserResponseDict(TypedDict):
+    user: User
+
 class PrivateUsersClient(APIClient):
     """
     Клиент для работы с /api/v1/users
@@ -56,6 +66,9 @@ class PrivateUsersClient(APIClient):
         :return: Ответ от сервера в виде объекта httpx.Response
         """
         return self.delete(f"/api/v1/users/{user_id}")
+
+    def get_user(self, user_id: str) -> GetUserResponseDict:
+        return self.get_get_user_api(user_id=user_id).json()
 
 def get_private_users_client(user:AuthenticationUserDict) -> PrivateUsersClient:
     return PrivateUsersClient(client=get_private_http_client(user=user))

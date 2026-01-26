@@ -16,6 +16,16 @@ class CreateUserRequestDict(TypedDict):
     firstName: str
     middleName: str
 
+class User(TypedDict):
+    id: str
+    email: str
+    lastName: str
+    firstName: str
+    middleName: str
+
+class CreateUserResponseDict(TypedDict):
+    user: User
+
 class PublicUsersClient(APIClient):
     """
     Клиент для работы с /api/v1/users
@@ -28,6 +38,9 @@ class PublicUsersClient(APIClient):
         :return: Ответ от сервера в виде объекта httpx.Response
         """
         return self.post(url='/api/v1/users',json=request)
+
+    def create_user(self,request:CreateUserRequestDict) -> CreateUserResponseDict:
+        return self.create_user_api(request=request).json()
 
 
 def get_public_users_client() -> PublicUsersClient:

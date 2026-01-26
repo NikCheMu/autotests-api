@@ -4,7 +4,9 @@ from clients.api_client import APIClient
 
 from typing import TypedDict
 
+from clients.files.files_client import File
 from clients.private_http_builder import get_private_http_client, AuthenticationUserDict
+from clients.users.private_users_client import User
 
 
 class GetCoursesQueryDict(TypedDict):
@@ -24,6 +26,19 @@ class CreateCourseDict(TypedDict):
     estimatedTime:str
     previewFileId:str
     createdByUserId:str
+
+class Course(TypedDict):
+    id: str
+    title: str
+    maxScore: int
+    minScore: int
+    description: str
+    previewFile: File
+    estimatedTime: str
+    createdByUserId: User
+
+class CreateCourseResponseDict(TypedDict):
+    course: Course
 
 class UpdateCourseDict(TypedDict):
     """
@@ -85,6 +100,9 @@ class CoursesClient(APIClient):
         :return: Ответ от сервера в виде объекта httpx.Response
         """
         return self.patch(f"/api/v1/courses/{course_id}", json=request)
+
+    def create_course(self,request: CreateCourseDict) -> CreateCourseResponseDict:
+        return self.create_courses_api(request= request).json()
 
 
 def get_courses_client(user:AuthenticationUserDict) -> CoursesClient:
