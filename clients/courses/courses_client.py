@@ -4,6 +4,9 @@ from clients.api_client import APIClient
 
 from typing import TypedDict
 
+from clients.private_http_builder import get_private_http_client, AuthenticationUserDict
+
+
 class GetCoursesQueryDict(TypedDict):
     """
     Описание структуры запроса на получение списка курсов.
@@ -82,3 +85,7 @@ class CoursesClient(APIClient):
         :return: Ответ от сервера в виде объекта httpx.Response
         """
         return self.patch(f"/api/v1/courses/{course_id}", json=request)
+
+
+def get_courses_client(user:AuthenticationUserDict) -> CoursesClient:
+    return CoursesClient(get_private_http_client(user=user))

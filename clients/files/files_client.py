@@ -4,6 +4,9 @@ from clients.api_client import APIClient
 
 from typing import TypedDict
 
+from clients.private_http_builder import AuthenticationUserDict, get_private_http_client
+
+
 class UploadFileDict(TypedDict):
     """
     Описание структуры запроса на создание файла.
@@ -43,3 +46,6 @@ class FilesClient(APIClient):
         :return: Ответ от сервера в виде объекта httpx.Response
         """
         return self.post("/api/v1/files",data=request,files={"upload_file": open(request['upload_file'], "rb")})
+
+def get_files_client(user:AuthenticationUserDict) -> FilesClient:
+    return FilesClient(get_private_http_client(user=user))
