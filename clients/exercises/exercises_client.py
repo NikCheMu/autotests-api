@@ -21,7 +21,7 @@ class CreateExerciseDict(TypedDict):
     courseId: str
     maxScore: int
     minScore: int
-    orderIndex: str
+    orderIndex: int
     description: str
     estimatedTime: str
 
@@ -35,6 +35,31 @@ class UpdateExerciseDict(TypedDict):
     orderIndex: str | None
     description: str | None
     estimatedTime: str | None
+
+class Exercise(TypedDict):
+    id: str
+    title: str
+    courseId: str
+    maxScore: int
+    minScore: int
+    orderIndex: int
+    description: str
+    estimatedTime: str
+
+class GetExercisesResponseDict(TypedDict):
+    exercises: list[Exercise]
+
+class GetExerciseResponseDict(TypedDict):
+    exercise: Exercise
+
+
+class CreateExerciseResponseDict:
+    exercise: Exercise
+
+
+class UpdateExerciseResponseDict:
+    pass
+
 
 class ExercisesClient(APIClient):
     """
@@ -85,6 +110,19 @@ class ExercisesClient(APIClient):
         :return: Ответ от сервера в виде объекта httpx.Response
         """
         return self.delete(f"/api/v1/exercises/{exercise_id}")
+
+    def get_exercises(self,query:GetExercisesQueryParamsDict) -> GetExercisesResponseDict:
+        return self.get_exercises_api(query=query).json()
+
+    def get_exercise(self, exercise_id: str) -> GetExerciseResponseDict:
+        return self.get_exercise_api(exercise_id=exercise_id).json()
+
+    def create_exercise(self, request: CreateExerciseDict) -> CreateExerciseResponseDict:
+        return self.create_exercise_api(request=request).json()
+
+    def update_exercise(self,exercise_id:str, request:UpdateExerciseDict) -> UpdateExerciseResponseDict:
+        return self.update_exercise_api(exercise_id=exercise_id, request= request).json()
+
 
 def get_exercises_client(user:AuthenticationUserDict) -> ExercisesClient:
     return ExercisesClient(get_private_http_client(user=user))
