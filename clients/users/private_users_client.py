@@ -4,7 +4,7 @@ from clients.api_client import APIClient
 
 from typing import TypedDict
 
-from clients.private_http_builder import AuthenticationUserDict, get_private_http_client
+from clients.private_http_builder import get_private_http_client, AuthenticationUserSchema
 
 
 class UpdateUserRequestDict(TypedDict):
@@ -70,5 +70,5 @@ class PrivateUsersClient(APIClient):
     def get_user(self, user_id: str) -> GetUserResponseDict:
         return self.get_get_user_api(user_id=user_id).json()
 
-def get_private_users_client(user:AuthenticationUserDict) -> PrivateUsersClient:
+def get_private_users_client(user:AuthenticationUserSchema) -> PrivateUsersClient:
     return PrivateUsersClient(client=get_private_http_client(user=user))
