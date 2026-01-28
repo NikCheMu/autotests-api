@@ -4,9 +4,9 @@ from clients.api_client import APIClient
 
 from typing import TypedDict
 
-from clients.files.files_client import File
+from clients.files.files_schema import FileSchema
 from clients.private_http_builder import get_private_http_client, AuthenticationUserSchema
-from clients.users.private_users_client import User
+from clients.users.users_schema import UserSchema
 
 
 class GetCoursesQueryDict(TypedDict):
@@ -33,9 +33,9 @@ class Course(TypedDict):
     maxScore: int
     minScore: int
     description: str
-    previewFile: File
+    previewFile: FileSchema
     estimatedTime: str
-    createdByUserId: User
+    createdByUserId: UserSchema
 
 class CreateCourseResponseDict(TypedDict):
     course: Course
