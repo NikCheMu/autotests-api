@@ -1,4 +1,4 @@
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, EmailStr
 from pydantic.alias_generators import to_camel
 
 class BaseSchema(BaseModel):
@@ -18,7 +18,7 @@ class UserSchema(BaseSchema):
     Обобщенная модель User
     """
     id: str | None = None
-    email: str
+    email: EmailStr
     last_name: str
     first_name: str
     middle_name: str
@@ -38,7 +38,7 @@ class CreateUserResponseSchema(BaseSchema):
 
 
 request_payload = CreateUserRequestSchema(
-    email="user@example",
+    email="user@example.com",
     last_name="Mu",
     first_name="Nik",
     middle_name="Che",
@@ -48,7 +48,7 @@ request_payload = CreateUserRequestSchema(
 response_payload = CreateUserResponseSchema(
     user= UserSchema(
         id = "userId1",
-        email = "user@example",
+        email = "user@example.com",
         last_name="Mu",
         first_name="Nik",
         middle_name="Che",
