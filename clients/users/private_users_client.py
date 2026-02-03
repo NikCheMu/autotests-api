@@ -18,7 +18,7 @@ class PrivateUsersClient(APIClient):
         """
         return self.get("/api/v1/users/me")
 
-    def get_get_user_api(self, user_id: str) -> Response:
+    def get_user_api(self, user_id: str) -> Response:
         """
         Метод получения пользователя по идентификатору.
 
@@ -47,7 +47,7 @@ class PrivateUsersClient(APIClient):
         return self.delete(f"/api/v1/users/{user_id}")
 
     def get_user(self, user_id: str) -> GetUserResponseSchema:
-        response = self.get_get_user_api(user_id=user_id)
+        response = self.get_user_api(user_id=user_id)
         return GetUserResponseSchema.model_validate_json(response.text)
 
 def get_private_users_client(user:AuthenticationUserSchema) -> PrivateUsersClient:
