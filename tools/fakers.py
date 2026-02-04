@@ -48,7 +48,7 @@ class Fake:
         Метод для получения случайной фамилии
         :return: Случайная фамилия
         """
-        return self.faker.lastname()
+        return self.faker.last_name()
 
     def first_name(self) -> str:
         """
