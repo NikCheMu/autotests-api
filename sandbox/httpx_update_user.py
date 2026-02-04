@@ -1,6 +1,6 @@
 import httpx
 
-from tools.fakers import get_random_email
+from tools.fakers import fake
 
 BASE_URL = "http://127.0.0.1:8000"
 
@@ -9,7 +9,7 @@ USERS_ENDPOINT = "/api/v1/users"
 LOGIN_ENDPOINT = "/api/v1/authentication/login"
 
 create_user_payload = {
-  "email": get_random_email(),
+  "email": fake.email(),
   "password": "string",
   "lastName": "string",
   "firstName": "string",
@@ -42,7 +42,7 @@ bearer_header = {
 }
 
 update_user_payload = {
-  "email": get_random_email(),
+  "email": fake.email(),
   "lastName": "string1",
   "firstName": "string1",
   "middleName": "string1"
