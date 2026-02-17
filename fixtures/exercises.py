@@ -31,6 +31,6 @@ def function_exercise(function_course: CourseFixture, exercises_client: Exercise
     :param exercises_client: экземпляр ExercisesClient
     :return: экземпляр ExerciseFixture
     """
-    request = CreateExerciseRequestSchema(courseId= function_course.response.course.id)
+    request = CreateExerciseRequestSchema(course_id= function_course.response.course.id)
     response = exercises_client.create_exercise(request)
     return ExerciseFixture(request=request, response=response)
