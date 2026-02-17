@@ -58,7 +58,7 @@ class CoursesClient(APIClient):
         return self.patch(f"/api/v1/courses/{course_id}", json=request.model_dump(by_alias=True))
 
     def create_course(self,request: CreateCourseRequestSchema) -> CreateCourseResponseSchema:
-        response = self.create_courses_api(request=request)
+        response = self.create_course_api(request=request)
         return CreateCourseResponseSchema.model_validate_json(response.text)
 
 
