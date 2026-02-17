@@ -1,5 +1,3 @@
-from typing import Optional
-
 from pydantic import BaseModel, Field, ConfigDict
 
 from clients.files.files_schema import FileSchema
@@ -44,6 +42,12 @@ class CourseSchema(BaseModel):
     estimated_time: str = Field(alias="estimatedTime")
     created_by_user: UserSchema = Field(alias="createdByUser")
 
+class GetCoursesResponseSchema(BaseModel):
+    """
+    Описание структуры ответа на получение списка курсов.
+    """
+    courses: list[CourseSchema]
+
 class CreateCourseResponseSchema(BaseModel):
     """
     Описание структуры ответа на запрос создание курса.
@@ -62,3 +66,8 @@ class UpdateCourseRequestSchema(BaseModel):
     description: str | None = Field(default_factory=fake.text)
     estimated_time: str | None = Field(alias="estimatedTime", default_factory=fake.estimated_time)
 
+class UpdateCourseResponseSchema(BaseModel):
+    """
+    Описание структуры ответа на запрос обновления курса.
+    """
+    course: CourseSchema
