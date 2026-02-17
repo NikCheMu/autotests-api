@@ -1,5 +1,5 @@
 from clients.exercises.exercises_schema import CreateExerciseResponseSchema, CreateExerciseRequestSchema, \
-    ExerciseSchema, GetExerciseResponseSchema
+    ExerciseSchema, GetExerciseResponseSchema, UpdateExerciseResponseSchema, UpdateExerciseRequestSchema
 from tools.assertions.base import assert_equal
 
 
@@ -44,3 +44,18 @@ def assert_get_exercise_response(actual: GetExerciseResponseSchema, expected: Cr
      :raises AssertionError: Если хотя бы одно поле не совпадает.
      """
     assert_exercise(actual=actual.exercise, expected=expected.exercise)
+
+def assert_update_exercise_response(actual: UpdateExerciseResponseSchema, expected: UpdateExerciseRequestSchema):
+    """
+    Проверяет, что ответ на обновление задания соответствует данным из запроса.
+
+    :param request: Исходный запрос на обновление задания.
+    :param response: Ответ API с обновленными данными задания.
+    :raises AssertionError: Если хотя бы одно поле не совпадает.
+    """
+    assert_equal(actual.exercise.title, expected.title, name="title")
+    assert_equal(actual.exercise.max_score, expected.max_score, name="max_score")
+    assert_equal(actual.exercise.min_score, expected.min_score, name="min_score")
+    assert_equal(actual.exercise.order_index, expected.order_index, name="order_index")
+    assert_equal(actual.exercise.description, expected.description, name="description")
+    assert_equal(actual.exercise.estimated_time, expected.estimated_time, name="estimated_time")
