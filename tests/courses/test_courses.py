@@ -4,11 +4,13 @@ import pytest
 
 from clients.courses.courses_client import CoursesClient
 from clients.courses.courses_schema import UpdateCourseRequestSchema, UpdateCourseResponseSchema, \
-    GetCoursesQuerySchema, GetCoursesResponseSchema
+    GetCoursesQuerySchema, GetCoursesResponseSchema, CreateCourseRequestSchema, CreateCourseResponseSchema
 from fixtures.course import CourseFixture
-from fixtures.users import UserFixture
+from fixtures.files import FileFixture
+from fixtures.users import UserFixture, function_user
 from tools.assertions.base import assert_status_code
-from tools.assertions.courses import assert_update_course_response, assert_get_courses_response
+from tools.assertions.courses import assert_update_course_response, assert_get_courses_response, \
+    assert_create_course_response
 from tools.assertions.schema import validate_json_schema
 
 
@@ -32,3 +34,10 @@ class TestCourses:
         assert_get_courses_response(response_data,[function_course.response])
         validate_json_schema(instance=response.json(), schema=response_data.model_json_schema())
 
+    def test_create_course(self,courses_client: CoursesClient, function_file: FileFixture, function_user: UserFixture):
+        request = CreateCourseRequestSchema(createdByUserId=function_user.response.user.id, previewFileId=function_file.response.file.id)
+        response = courses_client.create_course_api(request)
+        response_data = CreateCourseResponseSchema.model_validate_json(response.text)
+        assert_status_code(actual=response.status_code, expected=HTTPStatus.OK)
+        assert_create_course_response(actual=response_data,expected=request)
+        validate_json_schema(instance=response.json(), schema=response_data.model_json_schema())

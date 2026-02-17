@@ -19,7 +19,7 @@ class CoursesClient(APIClient):
         """
         return self.get("/api/v1/courses",params=query.model_dump(by_alias=True))
 
-    def create_courses_api(self, request:CreateCourseRequestSchema) -> Response:
+    def create_course_api(self, request:CreateCourseRequestSchema) -> Response:
         """
         Метод создания курса.
 
