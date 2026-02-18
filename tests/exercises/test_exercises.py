@@ -25,9 +25,12 @@ from tools.assertions.schema import validate_json_schema
 @pytest.mark.regression
 @allure.tag(AllureTag.EXERCISES,AllureTag.REGRESSION)
 @allure.epic(AllureEpic.LMS)
+@allure.parent_suite(AllureEpic.LMS)
 @allure.feature(AllureFeature.EXERCISES)
+@allure.suite(AllureFeature.EXERCISES)
 class TestExercises:
     @allure.story(AllureStory.CREATE_ENTITY)
+    @allure.sub_suite(AllureStory.CREATE_ENTITY)
     @allure.title("Create exercise")
     @allure.severity(Severity.BLOCKER)
     def test_create_exercise(self, exercises_client:ExercisesClient, function_course: CourseFixture):
@@ -39,6 +42,7 @@ class TestExercises:
         validate_json_schema(instance=response.json(), schema=response_data.model_json_schema())
 
     @allure.story(AllureStory.GET_ENTITY)
+    @allure.sub_suite(AllureStory.GET_ENTITY)
     @allure.title("Get exercise")
     @allure.severity(Severity.BLOCKER)
     def test_get_exercise(self,exercises_client:ExercisesClient, function_exercise:ExerciseFixture):
@@ -49,6 +53,7 @@ class TestExercises:
         validate_json_schema(instance=response.json(), schema=response_data.model_json_schema())
 
     @allure.story(AllureStory.UPDATE_ENTITY)
+    @allure.sub_suite(AllureStory.UPDATE_ENTITY)
     @allure.title("Update exercise")
     @allure.severity(Severity.CRITICAL)
     def test_update_exercise(self,exercises_client:ExercisesClient, function_exercise:ExerciseFixture):
@@ -60,6 +65,7 @@ class TestExercises:
         validate_json_schema(instance=response.json(), schema=response_data.model_json_schema())
 
     @allure.story(AllureStory.DELETE_ENTITY)
+    @allure.sub_suite(AllureStory.DELETE_ENTITY)
     @allure.title("Delete exercise")
     @allure.severity(Severity.CRITICAL)
     def test_delete_exercise(self,exercises_client:ExercisesClient, function_exercise:ExerciseFixture):
@@ -73,6 +79,7 @@ class TestExercises:
         validate_json_schema(instance=get_response.json(), schema=get_response_data.model_json_schema())
 
     @allure.story(AllureStory.GET_ENTITIES)
+    @allure.sub_suite(AllureStory.GET_ENTITIES)
     @allure.title("Get exercises")
     @allure.severity(Severity.BLOCKER)
     def test_get_exercises(self, exercises_client:ExercisesClient,function_course:CourseFixture, function_exercise:ExerciseFixture):

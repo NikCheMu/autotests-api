@@ -24,9 +24,12 @@ from tools.assertions.schema import validate_json_schema
 @pytest.mark.regression
 @allure.tag(AllureTag.COURSES,AllureTag.REGRESSION)
 @allure.epic(AllureEpic.LMS)
+@allure.parent_suite(AllureEpic.LMS)
 @allure.feature(AllureFeature.COURSES)
+@allure.suite(AllureFeature.COURSES)
 class TestCourses:
     @allure.story(AllureStory.UPDATE_ENTITY)
+    @allure.sub_suite(AllureStory.UPDATE_ENTITY)
     @allure.title("Update course")
     @allure.severity(Severity.CRITICAL)
     def test_update_course(self, courses_client: CoursesClient , function_course: CourseFixture):
@@ -39,6 +42,7 @@ class TestCourses:
         validate_json_schema(instance=response.json(), schema=response_data.model_json_schema())
 
     @allure.story(AllureStory.GET_ENTITIES)
+    @allure.sub_suite(AllureStory.GET_ENTITIES)
     @allure.title("Get courses")
     @allure.severity(Severity.BLOCKER)
     def test_get_courses(self, courses_client: CoursesClient , function_course: CourseFixture, function_user: UserFixture):
@@ -50,6 +54,7 @@ class TestCourses:
         validate_json_schema(instance=response.json(), schema=response_data.model_json_schema())
 
     @allure.story(AllureStory.CREATE_ENTITY)
+    @allure.sub_suite(AllureStory.CREATE_ENTITY)
     @allure.title("Create course")
     @allure.severity(Severity.BLOCKER)
     def test_create_course(self,courses_client: CoursesClient, function_file: FileFixture, function_user: UserFixture):
