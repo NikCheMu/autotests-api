@@ -7,6 +7,7 @@ from clients.files.files_schema import UploadFileRequestSchema
 from clients.private_http_builder import AuthenticationUserSchema
 from clients.users.public_users_client import get_public_users_client
 from clients.users.users_schema import CreateUserRequestSchema
+from config import settings
 
 public_users_client = get_public_users_client()
 
@@ -23,7 +24,7 @@ files_client = get_files_client(authentication_user)
 
 course_client = get_courses_client(authentication_user)
 
-create_file_request = UploadFileRequestSchema(upload_file= './test_data/files/image.jpeg')
+create_file_request = UploadFileRequestSchema(upload_file= settings.test_data.image_png_file)
 
 create_file_response = files_client.upload_file(create_file_request)
 print("Create file data: ", create_file_response)

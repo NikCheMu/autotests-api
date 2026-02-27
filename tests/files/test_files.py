@@ -6,6 +6,7 @@ import pytest
 from clients.errors_schema import ValidationErrorResponseSchema, InternalErrorResponseSchema
 from clients.files.files_client import FilesClient
 from clients.files.files_schema import UploadFileRequestSchema, UploadFileResponseSchema, GetFileResponseSchema
+from config import settings
 from fixtures.files import FileFixture
 from tools.allure.epic import AllureEpic
 from tools.allure.features import AllureFeature
@@ -33,7 +34,7 @@ class TestFiles:
     @allure.title("Create file")
     @allure.severity(Severity.BLOCKER)
     def test_create_file(self,files_client: FilesClient):
-        request = UploadFileRequestSchema(upload_file="test_data/files/image.jpeg")
+        request = UploadFileRequestSchema(upload_file=settings.test_data.image_png_file)
         response = files_client.upload_file_api(request=request)
         response_data = UploadFileResponseSchema.model_validate_json(response.text)
         assert_status_code(actual=response.status_code, expected=HTTPStatus.OK)
@@ -58,7 +59,7 @@ class TestFiles:
     @allure.sub_suite(AllureStory.CREATE_ENTITY)
     @allure.severity(Severity.CRITICAL)
     def test_create_file_with_empty_filename(self,files_client: FilesClient):
-        request = UploadFileRequestSchema(upload_file="test_data/files/image.jpeg",filename="")
+        request = UploadFileRequestSchema(upload_file=settings.test_data.image_png_file,filename="")
         response = files_client.upload_file_api(request=request)
         response_data = ValidationErrorResponseSchema.model_validate_json(response.text)
         assert_status_code(actual=response.status_code, expected=HTTPStatus.UNPROCESSABLE_ENTITY)
@@ -70,7 +71,7 @@ class TestFiles:
     @allure.sub_suite(AllureStory.CREATE_ENTITY)
     @allure.severity(Severity.CRITICAL)
     def test_create_file_with_empty_directory(self,files_client: FilesClient):
-        request = UploadFileRequestSchema(upload_file="test_data/files/image.jpeg", directory="")
+        request = UploadFileRequestSchema(upload_file=settings.test_data.image_png_file, directory="")
         response = files_client.upload_file_api(request=request)
         response_data = ValidationErrorResponseSchema.model_validate_json(response.text)
         assert_status_code(actual=response.status_code, expected=HTTPStatus.UNPROCESSABLE_ENTITY)
